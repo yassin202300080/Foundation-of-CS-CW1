@@ -41,4 +41,13 @@ def generate_keys():
     except Exception as e:
         print(f"No Suitable Generator Found: {e}")
 
+#Encrypt the plaintext message
+def encrypt(crypto_key , plaintext):
+    prime , generator , public_key_component = crypto_key
+ #choosing random ephemeral key
+    ephemeral_key = random.randint(1 , prime - 2) 
+    c1 = pow(generator , ephemeral_key , prime)  
+    c2 = (plaintext * pow(public_key_component, ephemeral_key, prime)) % prime  
+    return c1, c2  
+
 

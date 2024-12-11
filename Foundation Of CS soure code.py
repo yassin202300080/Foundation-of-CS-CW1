@@ -44,10 +44,10 @@ def generate_keys():
 #Encrypt the plaintext message
 def encrypt(crypto_key , plaintext):
     prime , generator , public_key_component = crypto_key
+    #Encrypting function
+    plaintext = plaintext % prime
  #choosing random ephemeral key
     ephemeral_key = random.randint(1 , prime - 2) 
     c1 = pow(generator , ephemeral_key , prime)  
     c2 = (plaintext * pow(public_key_component, ephemeral_key, prime)) % prime  
     return c1, c2  
-
-

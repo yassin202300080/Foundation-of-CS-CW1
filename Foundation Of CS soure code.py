@@ -51,3 +51,24 @@ def encrypt(crypto_key , plaintext):
     c1 = pow(generator , ephemeral_key , prime)  
     c2 = (plaintext * pow(public_key_component, ephemeral_key, prime)) % prime  
     return c1, c2  
+#decrypting  the plaintext message
+def decrypt(private_key, crypto_key, ciphertext):
+    prime, _, _ = crypto_key
+    c1, c2 = ciphertext
+    shared_secret = pow(c1, private_key, prime) 
+    shared_secret_inverse = pow(shared_secret, prime - 2, prime)  
+    return (c2 * shared_secret_inverse) % prime 
+
+if __name__ == "__main__":
+    public_key, private_key = generate_keys()
+    print(f"Public parameters: prime Number = {public_key[0]}, Generator = {public_key[1]}")
+    print(f" secret Private key: x = {private_key}")
+
+    plaintext = int(input("Please enter an integer to encrypt: "))
+    print(f"Original message: {plaintext}")
+
+    ciphertext = encrypt(public_key, plaintext)
+    print(f"Encrypted message: ciphertext 1 = {ciphertext[0]}, ciphertext2 = {ciphertext[1]}")
+
+    decrypted_message = decrypt(private_key, public_key, ciphertext)
+    print(f"Decrypted message: {decrypted_message}")

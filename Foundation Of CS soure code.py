@@ -13,7 +13,7 @@ def generate_keys():
     try:
         #Finding random prime number
         while True:
-            prime = random.randint(10, 100)
+            prime = random.randint(100, 100*10)
             if is_prime_number(prime):
                 break
 
@@ -64,8 +64,16 @@ if __name__ == "__main__":
     print(f"Public parameters: prime Number = {public_key[0]}, Generator = {public_key[1]}")
     print(f" secret Private key: x = {private_key}")
 
-    plaintext = int(input("Please enter an integer to encrypt: "))
-    print(f"Original message: {plaintext}")
+    #Error handling: Ensure the plaintext input from user is less than the prime number
+    prime = public_key[0]
+    while True:
+        try:
+            plaintext = int(input(f"enter an integer to encrypt (Integer must be less than {prime}): "))
+            if plaintext >= prime:
+                raise ValueError(f"Input must be less than {prime}.")
+            break
+        except ValueError as ve:
+                print(f"Invalid input: {ve}. Please try again.")
 
     ciphertext = encrypt(public_key, plaintext)
     print(f"Encrypted message: ciphertext 1 = {ciphertext[0]}, ciphertext2 = {ciphertext[1]}")
